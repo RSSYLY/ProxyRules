@@ -1,2 +1,2 @@
-# ProxyRules
-一些代理规则。
+# rssylySCTrules
+Some SCT rules 
