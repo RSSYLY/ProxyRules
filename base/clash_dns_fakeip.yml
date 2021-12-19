@@ -83,6 +83,7 @@ dns:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
   fallback:
+    - https://doh.rssins.net/dns-query
     - https://dns.google/dns-query
     - https://doh.opendns.com/dns-query
   fallback-filter:
