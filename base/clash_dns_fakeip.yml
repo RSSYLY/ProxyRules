@@ -85,7 +85,6 @@ dns:
   fallback:
     - https://dns.google/dns-query
     - https://doh.opendns.com/dns-query
-    - https://hk.doh.rste.club/dns-query
   fallback-filter:
     geoip: true
     ipcidr:
