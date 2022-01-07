@@ -83,8 +83,8 @@ dns:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
   fallback:
-    - https://mos.doh.rste.club/dns-query
     - https://hk.doh.rste.club/dns-query
+     # 已死，别用了
   fallback-filter:
     geoip: true
     ipcidr:
