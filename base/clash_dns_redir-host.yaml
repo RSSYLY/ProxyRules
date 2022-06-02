@@ -39,7 +39,7 @@ dns:
     - https://dns.alidns.com/dns-query
   fallback:
     - tls://1.0.0.1:853
-    - https://doh-cdn.orss.cf/dns-query
+    - https://d-o-h-cdn.orss.cf/dns-query
 #    - https://cloudflare-dns.com/dns-query
 #    - https://dns.google/dns-query
   fallback-filter:
