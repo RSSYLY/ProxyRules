@@ -1,33 +1,307 @@
 version = 1
+
 [custom]
-enable_rule_generator = false
-overwrite_original_rules = false
+# 启用规则生成器，必须为 true 才能接管规则
+enable_rule_generator = true
+# 覆盖原有规则，必须为 true
+overwrite_original_rules = true
+# 输出重命名：这里不需要，保持默认即可
+rename_node = ""
 
-# Options for custom base configuration file
-clash_rule_base = "base/forcerule.yml"
-#surge_rule_base = "base/surge.conf"
-#surfboard_rule_base = "base/surfboard.conf"
-#mellow_rule_base = "base/mellow.conf"
-#quan_rule_base = "base/quan.conf"
-#quanx_rule_base = "base/quanx.conf"
-#loon_rule_base = "base/loon.conf"
-#sssub_rule_base = "base/shadowsocks_base.json"
-#singbox_rule_base = "base/singbox.json"
-
-# Options for adding emojis
-#add_emoji = true
-#remove_old_emoji = true
-
-# Options for filtering nodes
-#include_remarks = []
-#exclude_remarks = []
+# 基础配置：如果你生成的是 Clash 格式，Subconverter 会使用默认的 base 文件
+# 你也可以指定 clash_rule_base = "你的base文件地址" 来完全控制 DNS 等设置
 
 [[custom_groups]]
-import = "snippets/groups_forcerule.toml"
+name = "⚪ 节点选择"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png"
+# 对应 proxies: [🟡 顺序, 🟢 自动, 🗿 香港 负载均衡, 💀 美日 故障转移] 以及所有节点
+member = ["🟡 顺序", "🟢 自动", "🗿 香港 负载均衡", "💀 美日 故障转移", ".*"]
 
-#[[rulesets]]
-#import = ""
+[[custom_groups]]
+name = "🍻 哔哩"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili.png"
+# 对应 filter: "HK" 和 proxies: [DIRECT]
+member = ["DIRECT", "(?i)HK|Hong"]
 
-[[template_args]]
-key = "clash.dns.port"
-value = "5353"
+[[custom_groups]]
+name = "✈️ 电报"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
+member = ["⚪ 节点选择", "🟢 自动", "🗿 香港 负载均衡"]
+
+[[custom_groups]]
+name = "🪟 微软"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/microsoft.png"
+member = ["⚪ 节点选择", "DIRECT"]
+
+[[custom_groups]]
+name = "⛳ 谷歌"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/google(1).png"
+member = ["⚪ 节点选择", "🗿 香港 负载均衡", "💀 美日 故障转移", "DIRECT"]
+
+[[custom_groups]]
+name = "🍏 苹果"
+type = "select"
+icon = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/apple.png"
+member = ["DIRECT", "🗿 香港 负载均衡", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🐼 Ehentai"
+type = "select"
+member = ["⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🕹️ EPIC"
+type = "select"
+member = ["DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "☁️ STEAM"
+type = "select"
+member = ["DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🍉 大陆"
+type = "select"
+member = ["DIRECT", "REJECT"]
+
+[[custom_groups]]
+name = "🔵 其他"
+type = "select"
+member = ["⚪ 节点选择", "DIRECT"]
+
+[[custom_groups]]
+name = "⛔️ 广告"
+type = "select"
+member = ["REJECT", "DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🎶 抖音"
+type = "select"
+member = ["REJECT", "DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🍚 米哈游"
+type = "select"
+member = ["DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🖼️ Adobe"
+type = "select"
+member = ["REJECT", "⚪ 节点选择", "DIRECT"]
+
+[[custom_groups]]
+name = "⚧️ 被墙"
+type = "select"
+member = ["⚪ 节点选择", "DIRECT"]
+
+[[custom_groups]]
+name = "💴 银行支付"
+type = "select"
+member = ["DIRECT", "⚪ 节点选择"]
+
+[[custom_groups]]
+name = "🗻 微软开发隧道"
+type = "select"
+member = ["🟢 自动", "🟡 顺序", "⚪ 节点选择"]
+
+# 策略组：香港 负载均衡
+[[custom_groups]]
+name = "🗿 香港 负载均衡"
+type = "load-balance"
+strategy = "consistent-hashing"
+url = "https://www.gstatic.com/generate_204"
+interval = 300
+# 对应 filter: "HK"
+member = ["(?i)HK|Hong"]
+
+# 策略组：美日 故障转移
+[[custom_groups]]
+name = "💀 美日 故障转移"
+type = "fallback"
+url = "https://www.gstatic.com/generate_204"
+interval = 300
+# 对应 filter: "LAX|ITM|🇺🇸|🇯🇵", exclude-filter: "中转"
+member = ["(LAX|ITM|🇺🇸|🇯🇵|US|JP)"]
+# Subconverter 的 exclude 逻辑通常在 member 正则中处理，或者依赖 rename 移除
+# 这里简单实现正则包含。
+
+# 策略组：顺序
+[[custom_groups]]
+name = "🟡 顺序"
+type = "fallback"
+url = "https://www.gstatic.com/generate_204"
+interval = 300
+member = [".*"]
+
+# 策略组：自动
+[[custom_groups]]
+name = "🟢 自动"
+type = "url-test"
+url = "https://www.gstatic.com/generate_204"
+interval = 300
+member = [".*"]
+
+# ==============================================
+# 规则集配置 (Rulesets)
+# 顺序非常重要，Subconverter 从上到下匹配
+# ==============================================
+
+# 1. 广告规则 (Anti-AD) & 进程规则
+[[rulesets]]
+group = "⛔️ 广告"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml"
+
+[[rulesets]]
+group = "⛔️ 广告"
+ruleset = [
+  "PROCESS-NAME,Lightroom.exe",
+  "PROCESS-NAME,Photoshop.exe"
+]
+
+# 2. Adobe 相关 (混合了 Domain Suffix 和 远程规则)
+[[rulesets]]
+group = "🖼️ Adobe"
+ruleset = [
+  "DOMAIN-SUFFIX,adobe.io",
+  "DOMAIN-SUFFIX,photo-api.adobe.io"
+]
+
+[[rulesets]]
+group = "🖼️ Adobe"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/qljsyph/ruleset-icon/raw/refs/heads/main/mihomo/domain/Adobe2.yaml"
+
+# 3. 银行支付 (混合了多个远程规则)
+[[rulesets]]
+group = "💴 银行支付"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/EliDoves/Proxy/raw/853e3562455cec5e9b350f5d8a147ef506768c2b/Clash/Mihomo/GeoSite/Bank_HK.yaml"
+
+[[rulesets]]
+group = "💴 银行支付"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/Accademia/Additional_Rule_For_Clash/raw/7f6b65a31a27d9ed88eda8bc567d67167d60af1f/Bank/BankHK_Domain.yaml"
+
+[[rulesets]]
+group = "💴 银行支付"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/paypal.yaml"
+
+# 4. 微软开发隧道
+[[rulesets]]
+group = "🗻 微软开发隧道"
+ruleset = [
+  "DOMAIN-SUFFIX,rel.tunnels.api.visualstudio.com",
+  "DOMAIN-SUFFIX,devtunnels.ms"
+]
+
+# 5. 抖音
+[[rulesets]]
+group = "🎶 抖音"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/DouYin/DouYin.yaml"
+
+[[rulesets]]
+group = "🎶 抖音"
+ruleset = ["DOMAIN-SUFFIX,douyin.com"]
+
+# 6. 米哈游 (Domain & IP)
+[[rulesets]]
+group = "🍚 米哈游"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/LM-Firefly/Rules/raw/3016365f689d8743068814a5cf8fac13f62e9b83/Clash-RuleSet-Classical/Game/HoYoverse.yaml"
+
+[[rulesets]]
+group = "🍚 米哈游"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/Yubainc/clash-rules/raw/113d10de2f272c9c3593dee8575647d7fd290a69/Archive/category-games@as-ipcidr.yaml"
+
+# 7. 特殊直连
+[[rulesets]]
+group = "DIRECT"
+ruleset = [
+  "DOMAIN,clash.razord.top",
+  "DOMAIN,yacd.haishan.me"
+]
+
+# 8. 微软
+[[rulesets]]
+group = "🪟 微软"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/microsoft.yaml"
+
+# 9. 电报 (Domain & IP)
+[[rulesets]]
+group = "✈️ 电报"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/telegram.yaml"
+
+[[rulesets]]
+group = "✈️ 电报"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/telegram.yaml"
+
+# 10. 哔哩哔哩 (Domain & IP)
+[[rulesets]]
+group = "🍻 哔哩"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.yaml"
+
+[[rulesets]]
+group = "🍻 哔哩"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo-lite/geoip/apple.yaml"
+
+# 11. 苹果 (Domain & IP)
+[[rulesets]]
+group = "🍏 苹果"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/apple.yaml"
+
+[[rulesets]]
+group = "🍏 苹果"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo-lite/geoip/apple.yaml"
+
+# 12. Ehentai
+[[rulesets]]
+group = "🐼 Ehentai"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.yaml"
+
+# 13. EPIC
+[[rulesets]]
+group = "🕹️ EPIC"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/epicgames.yaml"
+
+[[rulesets]]
+group = "🕹️ EPIC"
+ruleset = ["PROCESS-NAME,EpicGamesLauncher.exe"]
+
+# 14. STEAM
+[[rulesets]]
+group = "☁️ STEAM"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/steam@cn.yaml"
+
+# 15. 谷歌
+[[rulesets]]
+group = "⛳ 谷歌"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/google.yaml"
+
+# 16. GFW (被墙)
+[[rulesets]]
+group = "⚧️ 被墙"
+ruleset = "https://dl-cdn.sxczbbs.com/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/gfw.yaml"
+
+# 17. 大陆 (IP, Domain)
+[[rulesets]]
+group = "🍉 大陆"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Providers/ChinaCompanyIp.yaml"
+
+[[rulesets]]
+group = "🍉 大陆"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.yaml"
+
+[[rulesets]]
+group = "🍉 大陆"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.yaml"
+
+# 18. 非中国 IP (Geo is not China)
+[[rulesets]]
+group = "🔵 其他"
+ruleset = "https://dl-cdn.sxczbbs.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.yaml"
+
+# 19. 最终匹配 (MATCH)
+[[rulesets]]
+group = "🔵 其他"
+ruleset = ["MATCH"]
